@@ -1,5 +1,3 @@
 "use strict";
-function getName(name) {
-    return name;
-}
-console.log(getName("John"));
+let name = "Rishabh";
+console.log(name);
