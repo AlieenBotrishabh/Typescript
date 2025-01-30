@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.96",
     "express": "^4.21.2",
     "nodemon": "^3.1.9"
   }
