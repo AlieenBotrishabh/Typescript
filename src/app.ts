@@ -1,60 +1,43 @@
-let name : string = "Rishabh";
+import express, { Express, Request, Response, NextFunction } from 'express';
 
-let xyz : undefined = undefined;
-let x : null = null;
+const app : Express = express();
 
-let isDone : Boolean = true;
+app.use(express.json());
 
-let num : number = 100;
-
-let nums : number[] = [1, 2, 3, 4, 5];
-let arr : Array<string> = ["Rishabh", "Inder"];
-
-enum Color {
-    Red, Green, Blue
+interface CustomRequest extends Request
+{
+    startTime?: number
 }
 
-let a : Color = Color.Green;
+app.use((req : CustomRequest, res : Response, next : NextFunction) => {
+    req.startTime = Date.now();
+    next();
+})
 
-let abc : [string, number] = ["hi", 400];
-
-console.log(name, xyz, x, isDone, num, nums, arr, a);
+app.get('/', (req : Request, res : Response) => {
+    res.send('Typescript with express');
+})
 
 interface User
 {
     name : String;
-    id : number;
-    email? : string;
-    readonly createdAt : Date;
+    email : String;
 }
 
-const user : User = {
-    name : "John",
-    id : 1,
-    email : "john@example.com",
-    createdAt : new Date()
-}
+app.post('/user', (req : Request<{}, {}, User>, res : Response) => {
+    const {name, email} = req.body;
+    res.json({
+        msg : `User created ${name}-${email}`
+    })
+})
 
-console.log(user);
+app.get('/user/:id', (req : Request<{ id : String}>, res : Response) => {
+    const { id } = req.params;
+    res.json({
+        userId : id,
+    })
+})
 
-function fact(n : number) : number
-{
-    if(n === 1 || n === 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return n * fact(n - 1);
-    }
-}
-
-
-
-
-
-
-
-
-
-console.log(fact(5));
+app.listen(3000, () => {
+    console.log('Server is listening on the port 3000');
+})
